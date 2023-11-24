@@ -72,7 +72,7 @@ def main(page: Page):
             page.client_storage.remove("token")
             page.client_storage.set("token", newid)
             page.remove(container)
-
+            page.go('/chat')
         else:
             page.go("/chat")
             page.remove(container)
