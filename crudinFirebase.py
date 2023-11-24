@@ -22,7 +22,7 @@ db = firebase.database()
 def authenticate(email, password):
     start_time = time()
     user = auth.sign_in_with_email_and_password(email, password)
-    print("upto here")
+    print("auth completed from database file")
     uid = user["localId"]
     idtoken = user["idToken"]  # change with this refresh token or something
     refresh_token = user["refreshToken"]
@@ -30,8 +30,7 @@ def authenticate(email, password):
     enttime = time()
     estd = enttime - start_time
     print(f"estd = {estd}")
-    print(f"idtoken = {idtoken}")
-    print(f"refreshtoken  = {idtoken}")
+
 
     return uid, nameList["username"], idtoken, refresh_token
 
@@ -40,7 +39,7 @@ def check_username(username, token):
     result = db.child("users").order_by_child("username").equal_to(username).get(token)
 
     if result.val() is not None and result.val() != []:
-        print("oh, I am here too")
+
         print(result.val() is not None)
 
         return result.val() is not None  # returns true value xa vane
@@ -56,7 +55,7 @@ def create_user(email, password, username):
 
     # make table with user name and email
     data = {"uid": uid, "username": username, "email": email}
-    print(data)
+
     # now check if there's valid username ..
     if check_username(username, token):  # gets true if data xa vane
         user = auth.delete_user_account(token)

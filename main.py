@@ -4,13 +4,16 @@ from view import views_handler, chat_handler
 from color_settings import *
 from crudinFirebase import get_refresh_token, logout
 from flet import Page 
+from datetime import datetime
 
 def main(page: Page):
     page.window_maximized = True
+    # page.window_width =1280,
+    # page.window_height = 720
     page.window_resizable = False
     page.theme_mode = "dark"
     page.bgcolor = background_color
-    
+
     def event(e):
         print(e.data)
         page.client_storage.set('window_event',str(e.data))
@@ -50,6 +53,11 @@ def main(page: Page):
     page.on_route_change = route_change
     # get the value of remember me
     remember = page.client_storage.get("remember")
+    print(page.window_height)
+    exp = page.client_storage.get('expires_on')
+    current_time = int(datetime.now().strftime("%H%M%S"))
+    print(current_time)
+    print(exp)
     if remember:
         container = Container(
             Text("Loading . . . ", text_align="center", size=24, weight="bold"),
@@ -58,13 +66,19 @@ def main(page: Page):
             animate=animation.Animation(1000, "bounceInOut"),
         )
         page.add(container)
-        newid = get_refresh_token(refresh_token=refresh_token)
-        page.client_storage.remove("token")
-        page.client_storage.set("token", newid)
-        page.go("/chat")
-        page.remove(container)
+        if current_time > exp:
+            
+            newid = get_refresh_token(refresh_token=refresh_token)
+            page.client_storage.remove("token")
+            page.client_storage.set("token", newid)
+            page.remove(container)
 
+        else:
+            page.go("/chat")
+            page.remove(container)
+        
     else:
+        print(page.window_height)
         page.go("/")
 
 
