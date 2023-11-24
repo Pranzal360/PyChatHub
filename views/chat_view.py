@@ -43,10 +43,8 @@ class ChatScreen(UserControl):
             cursor_color='pink',
             expand=True,
             filled=True,
-            # border_color=text_input_border,
             on_submit=self.addMessage,
-            # focused_color=,
-            # bgcolor=text_input_bg,
+
             
 
         )
