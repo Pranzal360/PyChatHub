@@ -3,6 +3,7 @@ from color_settings import *
 from crudinFirebase import authenticate,db
 from datetime import datetime
 from flet import Page 
+from win10toast_click import *
 
 # TODO: need to re-write whole class !
 
@@ -59,6 +60,19 @@ class ChatScreen(UserControl):
         
         super().__init__()
     
+    def notify(self,sender,message):
+        def notification_click():
+            print('ck')
+            self.page.window_to_front()
+
+        toaster = ToastNotifier()
+        toaster.show_toast(
+            title=sender,
+            msg=message,
+            duration=5,
+            threaded=True,
+            callback_on_click=notification_click
+        )
     # add message
     def addMessage(self,e):
 
@@ -166,7 +180,11 @@ class ChatScreen(UserControl):
                         self.update()
                     else:
 
-
+                        event = self.page.client_storage.get('window_event')
+                        
+                        if event =="blur" or event =="minimize":
+                            self.notify(sender=name,message=msg) 
+                            
                         self.listView.controls.append(self.chat_ui(nam=name, msg=msg, id=sender))
                         self.update()
         
