@@ -38,12 +38,16 @@ class ChatScreen(UserControl):
             text_size=14,
             autofocus=True,
             border_radius=15,
+            border = InputBorder.NONE,
             max_lines=3,
+            cursor_color='pink',
             expand=True,
-            border_color=text_input_border,
+            filled=True,
+            # border_color=text_input_border,
             on_submit=self.addMessage,
-            focused_color=text_input_border,
-            bgcolor=text_input_bg,
+            # focused_color=,
+            # bgcolor=text_input_bg,
+            
 
         )
 
@@ -65,6 +69,8 @@ class ChatScreen(UserControl):
         if msg.strip() != "":
 
             self.textField.value = ""
+            self.textField.autofocus = True
+            self.textField.focus()
 
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
 
