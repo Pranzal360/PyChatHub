@@ -19,10 +19,8 @@ class ChatScreen(UserControl):
         name = self.namee
         idtoken = self.tokenid
 
-        self.wid = 1280
-        self.heig = 720
         self.chat_box = Container(
-            height=self.heig-20,
+            height=self.page.window_height - 110,
             animate = animation.Animation(590,"easeOutBack"),
             clip_behavior=ClipBehavior.HARD_EDGE
             
@@ -41,8 +39,6 @@ class ChatScreen(UserControl):
             autofocus=True,
             border_radius=15,
             max_lines=3,
-            # color="white",
-            # cursor_color="white",
             expand=True,
             border_color=text_input_border,
             on_submit=self.addMessage,
