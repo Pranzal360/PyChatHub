@@ -7,6 +7,7 @@ from flet import Page
 
 def main(page: Page):
     page.window_maximized = True
+    page.window_minimizable = False
     page.theme_mode = "dark"
     page.bgcolor = background_color
 
@@ -56,8 +57,7 @@ def main(page: Page):
         page.client_storage.set("token", newid)
         page.go("/chat")
         page.remove(container)
-        print(page.width)
-        print(page.height)
+
     else:
         page.go("/")
 
