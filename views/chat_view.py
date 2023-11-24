@@ -3,8 +3,8 @@ from color_settings import *
 from crudinFirebase import authenticate,db
 from datetime import datetime
 from flet import Page 
-from win10toast_click import *
-
+from win11toast import toast,notify
+import threading
 # TODO: need to re-write whole class !
 
 class ChatScreen(UserControl):
@@ -19,9 +19,13 @@ class ChatScreen(UserControl):
         uid = self.uidd
         name = self.namee
         idtoken = self.tokenid
-
+        print(' from chat:')
+        print(self.page.window_height)
+        print('from saved instacess')
+        print(self.page.client_storage.get('height'))
+        height_chat_box = int(float((self.page.client_storage.get('height'))))
         self.chat_box = Container(
-            height=self.page.window_height - 110,
+            height=height_chat_box - 110,
             animate = animation.Animation(590,"easeOutBack"),
             clip_behavior=ClipBehavior.HARD_EDGE
             
@@ -61,18 +65,12 @@ class ChatScreen(UserControl):
         super().__init__()
     
     def notify(self,sender,message):
-        def notification_click():
-            print('ck')
-            self.page.window_to_front()
-
-        toaster = ToastNotifier()
-        toaster.show_toast(
-            title=sender,
-            msg=message,
-            duration=5,
-            threaded=True,
-            callback_on_click=notification_click
-        )
+            
+        def toastn():
+            print('thread running')
+            notify(title=sender,body=message,duration=3,on_click=self.page.window_to_front())
+        thread1 = threading.Thread(target=toastn)
+        thread1.start()
     # add message
     def addMessage(self,e):
 

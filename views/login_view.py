@@ -3,6 +3,7 @@ from color_settings import *
 from crudinFirebase import authenticate,get_refresh_token
 from datetime import datetime
 from time import sleep
+from additional_funcs import set_expirey
 
 # TODO: remember me and forgot password
 
@@ -43,14 +44,16 @@ class Authentication(UserControl):
                     remember_me_btn = remember_me.value
                     self.page.overlay.clear()
                     self.page.update()
-
+                    # getting the expirey date
+                    exp = set_expirey()
                     # set shared prefences !
+                    self.page.client_storage.set('height',str(self.page.window_height))
                     self.page.client_storage.set("uid", uid)
                     self.page.client_storage.set("name", name)
                     self.page.client_storage.set("token", idToken)
                     self.page.client_storage.set("refresh_token", refresh_token)
                     self.page.client_storage.set("remember", remember_me_btn)
-
+                    self.page.client_storage.set('expires_on',exp)
                     # open chat_class insance as login is successful
                     sleep(0.33)
                     self.page.go("/chat")
