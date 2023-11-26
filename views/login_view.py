@@ -1,6 +1,6 @@
 from flet import *
 from color_settings import *
-from crudinFirebase import authenticate,get_refresh_token
+from crudinFirebase import authenticate,get_refresh_token,reset_pwd
 from datetime import datetime
 from time import sleep
 from additional_funcs import set_expirey
@@ -16,10 +16,52 @@ class Authentication(UserControl):
     def to_signup(self, e):
         self.page.go("/signup")
 
+    def close_bottomsheet(self,e):
+        
+        self.email = self.reset_email.value + self.reset_email.suffix_text
+        self.progress_bar.visible = True
+        self.page.update()
+        reset_pwd(self.email)
+        self.bottom_sheet.open = False
+        self.page.update()
     def password_reset(self, e):
-        print("cliecked")
+        # self.page.go('/reset')
+        self.reset_email =  TextField(hint_text="email",
+            prefix_icon=icons.ACCOUNT_CIRCLE,
 
+            color="#f2f2f2",
+            border_radius=10,
+            autofocus=True,
+            bgcolor="#383636",
+            cursor_color="lightblue",
+            border_color="#383636",
+            suffix_text='@gmail.com',
+            helper_text='Note: Exclude @gmail.com',)
+        self.progress_bar = ProgressBar(visible=False)
+        self.bottom_sheet = BottomSheet(
+            Container(
+                Column(
+                    [
+                        self.progress_bar,
+                        self.reset_email,
+                        ElevatedButton(
+                            text="Send Reset Link",
+                            bgcolor="lightblue",
+                            color="#ffffff",
+                            height=40,
+                            on_click=self.close_bottomsheet
+                        )
+                    ]
+                ),
+                margin=Margin(10,30,10,10)
+            ),
+            open=True,
+        )
+        
+        self.page.overlay.append(self.bottom_sheet)
+        self.page.update()
 
+ 
     def build(self):
         
         def submit(e):
