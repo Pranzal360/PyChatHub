@@ -7,6 +7,7 @@ from flet import Page
 from datetime import datetime
 
 def main(page: Page):
+    # page.client_storage.clear()
     page.window_maximized = True
     # page.window_width =1280,
     # page.window_height = 720
@@ -15,7 +16,6 @@ def main(page: Page):
     page.bgcolor = background_color
 
     def event(e):
-        print(e.data)
         page.client_storage.set('window_event',str(e.data))
     
     page.on_window_event = event
@@ -29,7 +29,7 @@ def main(page: Page):
         page.add(container_to_relogin)
         print("please re login")
 
-    print(page.client_storage.get('token'))
+
     page.on_disconnect = logout
     page.on_close = logout
     # page.scroll = ScrollMode.ADAPTIVE
@@ -43,7 +43,7 @@ def main(page: Page):
             newid = page.client_storage.get("token")
 
             print(f"{name},uid = {uid}")
-            print(newid)
+
             page.views.clear()
             page.views.append(chat_handler(page, uid, name, newid)[page.route])
         else:
@@ -53,11 +53,11 @@ def main(page: Page):
     page.on_route_change = route_change
     # get the value of remember me
     remember = page.client_storage.get("remember")
-    print(page.window_height)
+
     exp = page.client_storage.get('expires_on')
     current_time = int(datetime.now().strftime("%H%M%S"))
-    print(current_time)
-    print(exp)
+
+
     if remember:
         container = Container(
             Text("Loading . . . ", text_align="center", size=24, weight="bold"),
@@ -66,14 +66,17 @@ def main(page: Page):
             animate=animation.Animation(1000, "bounceInOut"),
         )
         page.add(container)
-        if current_time > exp:
-            
+        if exp != None and current_time > int(exp):
+
             newid = get_refresh_token(refresh_token=refresh_token)
             page.client_storage.remove("token")
             page.client_storage.set("token", newid)
+            page.client_storage.set("expires_on",current_time)
             page.remove(container)
+            page.go('/chat')
 
         else:
+
             page.go("/chat")
             page.remove(container)
         
