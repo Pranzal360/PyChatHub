@@ -40,7 +40,6 @@ def check_username(username, token):
 
     if result.val() is not None and result.val() != []:
 
-        print(result.val() is not None)
 
         return result.val() is not None  # returns true value xa vane
     else:
@@ -77,3 +76,10 @@ def get_refresh_token(refresh_token):
 def logout(e):
     print("logoout ran")
     auth.current_user = None
+
+def reset_pwd(email):
+    try:
+        res = auth.send_password_reset_email(email)
+        print(res)
+    except Exception as e:
+        print(e)
