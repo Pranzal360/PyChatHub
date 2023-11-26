@@ -17,7 +17,9 @@ def views_handler(page):
             controls= [
                 Register(page)
             ]
-        )}
+        ),
+
+        }
 
     
 
@@ -32,9 +34,9 @@ def chat_handler(page,uid=None,name=None,tokenid=None):
         '/chat': View(
             route='/chat',
             controls=[
-                AppBar(actions=[
+                AppBar(title=Text('Sangalo',text_align=TextAlign.CENTER),actions=[
                     IconButton(icon=icons.LOGOUT,on_click=logout)
-                ]),ChatScreen(page,uid,name,tokenid)
+                ],center_title=True),ChatScreen(page,uid,name,tokenid)
             ]
         )
 
