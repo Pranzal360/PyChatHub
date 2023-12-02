@@ -16,20 +16,29 @@ class ChatScreen(UserControl):
         self.namee = namee
         self.tokenid = tokenid
         
+        # delete the recent node
+
         uid = self.uidd
         name = self.namee
         idtoken = self.tokenid
-        print(' from chat:')
-        print(self.page.window_height)
-        print('from saved instacess')
-        print(self.page.client_storage.get('height'))
         height_chat_box = int(float((self.page.client_storage.get('height')))) if self.page.client_storage.get('height') != None else 720
-        print(height_chat_box)
+        
+        try:
+            db.child('recent').remove(idtoken)
+        except Exception as e:
+            print(e)
+
         self.chat_box = Container(
             height=height_chat_box - 110,
             animate = animation.Animation(590,"easeOutBack"),
             clip_behavior=ClipBehavior.HARD_EDGE
             
+        )
+
+        self.three_dots_icon_btn = IconButton(
+            icon=icons.MORE_HORIZ,
+            opacity=0,
+            disabled=True,
         )
 
         self.listView = ListView(
@@ -57,8 +66,8 @@ class ChatScreen(UserControl):
             icon='send'
         )
 
-        self.ChatHistory()
         self.start_stream()
+        self.ChatHistory()
         
         super().__init__()
     
@@ -69,6 +78,15 @@ class ChatScreen(UserControl):
             notify(title=sender,body=message,on_click=self.page.window_to_front())
         thread1 = threading.Thread(target=toastn)
         thread1.start()
+    
+    def dots_icon_button(self,e,key):
+        print('in the hover of container')
+        print(e)
+        
+        self.update()
+    def refrence(self,e):
+        print(e.data)
+
     # add message
     def addMessage(self,e):
 
@@ -116,15 +134,18 @@ class ChatScreen(UserControl):
                 padding=10,
                 tooltip=key,
                 margin=Margin(5,0,5,5),
-                key=key
+                key=key,
+                on_click=self.refrence
+                
             )
+            self.three_dots_icon_btn.ref = key
             
             if msglen > 500:
                 label_container.width = 500
                 print(msglen)
 
             row = Row(
-                controls=[label_container], alignment="start" if id != uid else "end",
+                controls=[self.three_dots_icon_btn,label_container], alignment="start" if id != uid else "end",
             )
 
             column = Column(
@@ -140,6 +161,8 @@ class ChatScreen(UserControl):
         
         
         value = db.child("conversations")
+
+        
 
         limited_val = value.order_by_key().limit_to_last(30).get(idtoken).val()
         
@@ -172,44 +195,46 @@ class ChatScreen(UserControl):
             
     # stream handler 
     def streamHandler(self, message):
+        
         dbpath = db.child('recent')
         
         value = dbpath.order_by_key().get(idtoken).val()
-        
-        if value is not None:
-            if message["event"] ***REMOVED*** "put":
+        if message['event'] != "disconnected" and message['event'] ***REMOVED*** "put":
+            if value is not None:
+                if message["event"] ***REMOVED*** "put":
+                    print(message)
+                    id = message["data"]
+                    print(id)
+                    sender = id.get("sender")
+                    name = id.get("name")
+                    msg = id.get("msg")
+                    tm = id.get('timestamp')
 
-                id = message["data"]
-                print(id)
-                sender = id.get("sender")
-                name = id.get("name")
-                msg = id.get("msg")
-                tm = id.get('timestamp')
+                    if sender is not None:
+                        stamp = datetime.strptime(tm,"%Y%m%d%H%M%S%f")
+                        date = stamp.date()
+                        hour = stamp.hour
+                        min = stamp.minute
+                        sec = str(int(stamp.second))
+                        time_to_display = f"{date} {hour}:{min}:{sec}"
+                        if sender ***REMOVED*** uid and sender is not None:
 
-                if sender is not None:
-                    stamp = datetime.strptime(tm,"%Y%m%d%H%M%S%f")
-                    date = stamp.date()
-                    hour = stamp.hour
-                    min = stamp.minute
-                    sec = str(int(stamp.second))
-                    time_to_display = f"{date} {hour}:{min}:{sec}"
-                    if sender ***REMOVED*** uid and sender is not None:
-
-                        self.listView.controls.append(self.chat_ui(nam=name, msg=msg, id=sender,key=time_to_display))
-                        self.update()
-                        
-                    else:
-
-                        event = self.page.client_storage.get('window_event')
-                        if event ***REMOVED***"blur" or event ***REMOVED***"minimize":
-                            self.notify(sender=name,message=msg) 
+                            self.listView.controls.append(self.chat_ui(nam=name, msg=msg, id=sender,key=time_to_display))
+                            self.update()
                             
-                        self.listView.controls.append(self.chat_ui(nam=name, msg=msg, id=sender,key=time_to_display
-                        ))
+                        else:
 
-                        self.update()
-                        
+                            event = self.page.client_storage.get('window_event')
+                            if event ***REMOVED***"blur" or event ***REMOVED***"minimize":
+                                self.notify(sender=name,message=msg) 
+                                
+                            self.listView.controls.append(self.chat_ui(nam=name, msg=msg, id=sender,key=time_to_display
+                            ))
 
+                            self.update()
+        
+        else:
+            print(message['event'])
 
 
 
