@@ -7,7 +7,8 @@ from flet import Page
 from datetime import datetime
 
 def main(page: Page):
-    # page.client_storage.clear()
+
+    
     page.window_maximized = True
     # page.window_width =1280,
     # page.window_height = 720
@@ -55,7 +56,7 @@ def main(page: Page):
     remember = page.client_storage.get("remember")
 
     exp = page.client_storage.get('expires_on')
-    current_time = int(datetime.now().strftime("%H%M%S"))
+    current_time = int(datetime.now().strftime("%Y%m%d%H%M%S%f"))
 
 
     if remember:
@@ -67,7 +68,7 @@ def main(page: Page):
         )
         page.add(container)
         if exp != None and current_time > int(exp):
-
+            print('i got here or not ')
             newid = get_refresh_token(refresh_token=refresh_token)
             page.client_storage.remove("token")
             page.client_storage.set("token", newid)
