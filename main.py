@@ -1,8 +1,8 @@
 from flet import *
 
 from view import views_handler, chat_handler
-from color_settings import *
-from crudinFirebase import get_refresh_token, logout
+from components.color_settings import *
+from components.crudinFirebase import get_refresh_token, logout
 from flet import Page 
 from datetime import datetime
 

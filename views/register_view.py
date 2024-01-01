@@ -1,8 +1,8 @@
 from flet import *
-from color_settings import *
+from components.color_settings import *
 import re
 from requests.exceptions import HTTPError
-from crudinFirebase import create_user, check_username
+from components.crudinFirebase import create_user, check_username
 from validate_email_address import validate_email
 
 # TODO: signup verification and minor ui changes

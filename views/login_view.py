@@ -1,9 +1,9 @@
 from flet import *
-from color_settings import *
-from crudinFirebase import authenticate,get_refresh_token,reset_pwd
+from components.color_settings import *
+from components.crudinFirebase import authenticate,get_refresh_token,reset_pwd
 from datetime import datetime
 from time import sleep
-from additional_funcs import set_expirey
+from components.additional_funcs import set_expirey
 
 # TODO: remember me and forgot password
 
