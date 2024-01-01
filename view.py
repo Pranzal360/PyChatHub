@@ -25,9 +25,11 @@ def views_handler(page):
 
 def chat_handler(page,uid=None,name=None,tokenid=None):
     
+    
     def logout(e):
         logout
         page.client_storage.clear()
+
         page.go('/')
     
     return{

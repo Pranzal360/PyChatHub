@@ -12,8 +12,19 @@ if yes: check if the token has expired or not
 no:
 tei paila vako token bata login gardeu
 
-
-
 fix the bug that comes with it 
 
-add notification if the app is stable other wise roll back to previous version
+add notification if the app is stable other wise roll back to previous version -> notification added 
+
+
+to solve the bug of re connect to database and chat stream begins     -> done but requires testing
+
+# TODO: upto here done !
+
+
+learn reuseable UI 
+
+
+to be able to delete and edit the message 
+
+to delete the msg tya ui bata remove garna ayena aile lai refrence vannii function ma rakhya xu 

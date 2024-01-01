@@ -84,8 +84,23 @@ class ChatScreen(UserControl):
         print(e)
         
         self.update()
+    
     def refrence(self,e):
-        print(e.data)
+
+        # TODO: open a bottomsheet menu with Edit button with pencil icon, that can edit the message !
+        self.bottom_sheet = BottomSheet(
+            content=[Column(
+                TextButton('Edit',icon=icons.EDIT_OUTLINED),
+                TextButton('Delete',icon=icons.DELETE_OUTLINE,icon_color='red')
+            )],
+        )
+        self.bottom_sheet.open = True
+        self.page.add(self.bottom_sheet)
+        self.page.update()
+        
+        # print(e.control)
+        # print("self: "+str(self.controls.index(e)))
+        # print(e.control.content)
 
     # add message
     def addMessage(self,e):
@@ -236,8 +251,6 @@ class ChatScreen(UserControl):
         else:
             print(message['event'])
 
-
-
     # start streaming !
     def start_stream(self):
         print('straming already')
@@ -247,7 +260,6 @@ class ChatScreen(UserControl):
 
     def build(self):
 
-        
         chat_column = Column(
             controls=[
                 self.listView,
