@@ -1,5 +1,4 @@
-/build/
-*.spec
-*.rar
-/dist/
-toot
+/__pycache__
+/build
+/dist
+/chat-app.rar
