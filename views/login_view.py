@@ -24,6 +24,7 @@ class Authentication(UserControl):
         reset_pwd(self.email)
         self.bottom_sheet.open = False
         self.page.update()
+    
     def password_reset(self, e):
         # self.page.go('/reset')
         self.reset_email =  TextField(hint_text="email",

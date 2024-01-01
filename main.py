@@ -73,8 +73,8 @@ def main(page: Page):
             page.client_storage.remove("token")
             page.client_storage.set("token", newid)
             page.client_storage.set("expires_on",current_time)
-            page.remove(container)
             page.go('/chat')
+            page.remove(container)
 
         else:
 
