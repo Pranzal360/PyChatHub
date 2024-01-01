@@ -2,7 +2,7 @@ from flet import *
 from views.login_view import Authentication
 from views.register_view import Register
 from views.chat_view import ChatScreen
-from crudinFirebase import logout
+from components.crudinFirebase import logout
 def views_handler(page):
     
     return{
