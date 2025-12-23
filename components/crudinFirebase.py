@@ -2,14 +2,14 @@ from pyrebase import initialize_app
 from time import time
 
 config = {
-    "apiKey": "***REMOVED***",
-    "authDomain": "***REMOVED***",
-    "databaseURL": "***REMOVED***",
-    "projectId": "***REMOVED***",
-    "storageBucket": "***REMOVED***.appspot.com",
-    "messagingSenderId": "***REMOVED***",
-    "appId": "1:***REMOVED***:web:03dad30335f27b12d7b526",
-    "databaseURL": "***REMOVED***/",
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "",
+    "projectId": "",
+    "storageBucket": "",
+    "messagingSenderId": "",
+    "appId": "",
+    "databaseURL": "",
 }
 
 
